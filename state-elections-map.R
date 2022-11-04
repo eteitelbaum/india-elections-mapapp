@@ -40,11 +40,6 @@ coalitions_df <- read_csv("election-results/state-level-coalitions.csv") %>%
     )
   )
 
-
-# next: nex variable collapsing winning coalitions into "BJP", "BJP+", etc...
-# customize colors of label in tmap to fit usual party colors (e.g. saffran, blue)
-
-
 # create list of most recent elections
 
 vs_elections <- coalitions_df %>%
@@ -65,7 +60,7 @@ selected_data <- coalitions_df %>%
   slice_max(year, n = 1)
 
 # join to shapfile
-# need if/then statements her for maps for different years 
+# need if/then statements here for maps for different years 
 map_data <- left_join(states2014_shp, selected_data, by ="state_name")
 
 # create map
