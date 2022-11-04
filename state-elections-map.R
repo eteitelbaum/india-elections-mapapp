@@ -79,4 +79,5 @@ return(elections_plt)
 
 }
 
-map_year(2019)
+map_year(2018)
+map_year(2021)
