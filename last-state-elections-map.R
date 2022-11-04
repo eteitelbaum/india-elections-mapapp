@@ -16,7 +16,7 @@ states2014_shp <- st_read(dsn ="state-shape/states-2014/states_2014.shp") %>%
   rename(state_name = NAME_1) %>%
   mutate(
     state_name = str_replace_all(state_name, "and", "&"), 
-    state_name = str_replace(stat_name, "NCT of Delhi", "Delhi")
+    state_name = str_replace(state_name, "NCT of Delhi", "Delhi")
   )
 
 test_2014 <- tm_shape(states2014_shp) 
