@@ -60,8 +60,14 @@ selected_data <- coalitions_df %>%
   slice_max(year, n = 1)
 
 # join to shapfile
-# need if/then statements here for maps for different years 
-map_data <- left_join(states2014_shp, selected_data, by ="state_name")
+# if/then statements here for maps for different years 
+if(selected_year < 2020){
+  map_data <- left_join(states2014_shp, selected_data, by ="state_name")
+}
+
+else{
+  map_data <- left_join(states2020_shp, selected_data, by ="state_name")
+}
 
 # create map
 elections_plt <- tm_shape(map_data) 
