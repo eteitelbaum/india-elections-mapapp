@@ -65,7 +65,6 @@ map_year <- function(selected_year) {
             title = "Ruling Coalition")+
     tm_borders(col = "grey40", lwd = .5, lty = "solid", alpha = .4)
   
-  tmap_save(elections_plt, filename = "elections.pdf")
-  
+
   return(elections_plt)
 }
