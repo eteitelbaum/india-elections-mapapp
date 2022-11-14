@@ -1,6 +1,14 @@
 #must start with loading shiny package
 library(shiny)
 
+#load all needed packages
+library(tidyverse)
+library(tmap)
+library(sf)
+
+#load helper script that does the state-level mapping
+source("helper1.R") #contains the function 'map_year' that takes one year variable
+
 # UI ----
 ui <- fluidPage(
   #app title
@@ -28,16 +36,31 @@ ui <- fluidPage(
     
     #main panel for displaying outputs
     mainPanel(
-      h2("Map", align = "center"),
-      p("This project aims to provide detailed and accurate data visualization of ruling coalitions in India. The web applications that will result from it will provide people interested in the evolution of the Indian political landscape with a centralized tool to observe it."),
-      h3("[output displayed here]"))
+      p("This project aims to provide detailed and accurate data visualization of ruling coalitions in India. 
+        The web applications that will result from it will provide people interested in the evolution 
+        of the Indian political landscape with a centralized tool to observe it."),
+      h3(textOutput("SELECTED_ELECTION_YEAR")),
+    
+      plotOutput("MAP") #plots the output (MAP to be created in server with a render function)
+    )
   )
 )
+
 
 # SERVER ----
 
 server <- function(input, output) {
   
+  output$SELECTED_ELECTION_YEAR <- renderText({ 
+    paste("You have selected", input$election, "in", input$year )
+  })
+  
+  output$TEST <- renderPlot({
+    map_year(input$year)
+  })
+  
+  
+
 }
 
 #wrap everything together
