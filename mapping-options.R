@@ -4,7 +4,7 @@ library(tmap)
 library(sf)
 library(ggplot2)
 
-#Preparation
+#Preparation ----
 states2020_shp <- st_read(dsn ="shapefiles/state-shape/states-2020/states_2020.shp") %>%
   rename(state_name = ST_NM)
 
@@ -41,7 +41,8 @@ group.colors <- c("BJP" = "#ff8100",
 
 
 
-#TMAP
+
+#TMAP ----
 tmap1 <- tm_shape(map)+
   tm_polygons("bjp_inc_other", 
               palette = group.colors,
