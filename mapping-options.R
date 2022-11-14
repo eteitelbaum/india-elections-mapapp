@@ -40,9 +40,14 @@ group.colors <- c("BJP" = "#ff8100",
                   "Other" = "#ffff66")
 
 
-
-
 #TMAP ----
+tmap0 <- tm_shape(map) +
+  tm_borders(col = "grey40", lwd = .5, lty = "solid", alpha = .4)+
+  tm_fill("bjp_inc_other")
+tmap0
+
+
+
 tmap1 <- tm_shape(map)+
   tm_polygons("bjp_inc_other", 
               palette = group.colors,

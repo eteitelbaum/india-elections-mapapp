@@ -57,24 +57,15 @@ map_year <- function(selected_year) {
     map_data <- left_join(states2020_shp, selected_data, by ="state_name")
   }
   
+  
   # create map
   elections_plt <- tm_shape(map_data)+
-    tm_polygons("bjp_inc_other", 
-                palette = group.colors,
-                title = "Ruling Coalition")+
-    tm_layout(main.title = paste0("Winning coalitions in state assembly elections, ", selected_year),
-              main.title.position = "center",
-              main.title.fontface = "bold",
-              main.title.size = 1.3,
-              frame = FALSE,
-              legend.outside = FALSE,
-              legend.frame = FALSE,
-              legend.position =c("left", "bottom"),
-              legend.title.size = 1,
-              legend.text.size = 0.8,
-              inner.margins = c(0, 0, 0.1 ,0)) + 
-    tm_credits(paste0("Source: Kay and Vaishnov, 2021"))
+    tm_fill("bjp_inc_other",
+            palette = group.colors,
+            title = "Ruling Coalition")+
+    tm_borders(col = "grey40", lwd = .5, lty = "solid", alpha = .4)
   
-  # return map (rendering took too much time and was making R crash)
+  tmap_save(elections_plt, filename = "elections.pdf")
+  
   return(elections_plt)
 }

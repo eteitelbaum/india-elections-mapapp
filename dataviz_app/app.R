@@ -55,7 +55,7 @@ server <- function(input, output) {
     paste("You have selected", input$election, "in", input$year )
   })
   
-  output$TEST <- renderPlot({
+  output$MAP <- renderPlot({
     map_year(input$year)
   })
   
