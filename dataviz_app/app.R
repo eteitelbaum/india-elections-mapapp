@@ -9,11 +9,22 @@ ui <- fluidPage(
   #basic structure: one panel for inputs & one for displaying outputs -> HTML inside
   sidebarLayout(
 
-    #sidebar panel for inputs (position by default = left)
+    #sidebar panel for inputs (position by default = left) -> add widgets
     sidebarPanel(
-      h2("Inputs"),
-      p("Here, users will be able to select a type of elections: State-level elections or General elections."),
-      p("They will use a slider to determine the year mapped.")),
+      helpText("Maps the winning coalition in each Indian State / Parliamentary Constituencies for the selected year"),
+      #select box: elections
+      selectInput("election", 
+                  label = "Choose the election",
+                  choices = list("State-level", 
+                                 "Lok Sabha"),
+                  selected = "State-level"),
+      
+      #slider: year
+      sliderInput("year",
+                  label = "Year Selected:",
+                  sep="", #removes comma from numbers
+                  min = 1977, max = 2021, value = 2021)
+      ),
     
     #main panel for displaying outputs
     mainPanel(
@@ -29,4 +40,5 @@ server <- function(input, output) {
   
 }
 
+#wrap everything together
 shinyApp(ui = ui, server = server)
