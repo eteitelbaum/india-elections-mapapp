@@ -1,1 +1,0 @@
-These shape files come directly from the elections commission of India (ECI). They were shared with a colleague who then shared them with me. 

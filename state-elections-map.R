@@ -3,7 +3,7 @@ library(tmap)
 library(sf)
 
 # load and clean shapefiles
-states2001_shp <- st_read(dsn ="state-shape/states-2001/states_2001.shp")
+states2001_shp <- st_read(dsn ="shapefiles/state-shape/states-2001/states_2001.shp")
 # this works but unfortunately the state names are not in the shape file, 
 # so it can't be merged with the coalition data at th moment
 
@@ -11,7 +11,7 @@ states2001_shp <- st_read(dsn ="state-shape/states-2001/states_2001.shp")
 # test_2001 <- test_2001 + tm_borders(col = "grey40", lwd = .5, lty = "solid", alpha = .4)
 # test_2001
 
-states2014_shp <- st_read(dsn ="state-shape/states-2014/states_2014.shp") %>%
+states2014_shp <- st_read(dsn ="shapefiles/state-shape/states-2014/states_2014.shp") %>%
   filter(GID_0 == "IND" | GID_0 == "Z01") %>%
   rename(state_name = NAME_1) %>%
   mutate(
@@ -19,7 +19,7 @@ states2014_shp <- st_read(dsn ="state-shape/states-2014/states_2014.shp") %>%
     state_name = str_replace(state_name, "NCT of Delhi", "Delhi")
   )
 
-states2020_shp <- st_read(dsn ="state-shape/states-2020/states_2020.shp") %>%
+states2020_shp <- st_read(dsn ="shapefiles/state-shape/states-2020/states_2020.shp") %>%
   rename(state_name = ST_NM)
 
 # load and clean election data
@@ -40,13 +40,11 @@ coalitions_df <- read_csv("election-results/state-level-coalitions.csv") %>%
     )
   )
 
-# create list of most recent elections
-
-vs_elections <- coalitions_df %>%
-  distinct(year) %>%
-  arrange(year)
-vs_elections # no elections in 1981 and 1986
-
+group.colors <- c("BJP" = "#ff8100", 
+                  "BJP+" = "#ffb348", 
+                  "INC" = "#5da2cf", 
+                  "INC+" = "#90cce7", 
+                  "Other" = "#ffff66")
 # create a function that selects data in each state for election closest to 
 # year selected by user and maps it
 
@@ -70,14 +68,30 @@ else{
 }
 
 # create map
-elections_plt <- tm_shape(map_data) 
-elections_plt <- elections_plt + tm_borders(col = "grey40", lwd = .5, lty = "solid", alpha = .4)
-elections_plt <- elections_plt + tm_fill(col = "bjp_inc_other")
+elections_plt <- tm_shape(map_data)+
+  tm_polygons("bjp_inc_other", 
+              palette = group.colors,
+              title = "Ruling Coalition")+
+  tm_layout(main.title = paste0("Winning coalitions in state assembly elections, ", selected_year),
+            main.title.position = "center",
+            main.title.fontface = "bold",
+            main.title.size = 1.3,
+            frame = FALSE,
+            legend.outside = FALSE,
+            legend.frame = FALSE,
+            legend.position =c("left", "bottom"),
+            legend.title.size = 1,
+            legend.text.size = 0.8,
+            inner.margins = c(0, 0, 0.1 ,0)) + 
+  tm_credits(paste0("Source: Kay and Vaishnov, 2021"))
 
-# return map
-return(elections_plt)
+#save map as pdf
+tmap_save(elections_plt, filename = "elections.pdf")
 
+# return map (rendering took too much time and was making R crash)
+return()
 }
 
+map_year(2011)
 map_year(2018)
 map_year(2021)
