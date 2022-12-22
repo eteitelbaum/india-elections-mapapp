@@ -1,0 +1,13 @@
+name: IndianElectionsHistory
+title: IndianElectionsHistory
+username:
+account: matteolarrode
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7934403
+bundleId: 6665837
+url: https://matteolarrode.shinyapps.io/IndianElectionsHistory/
+when: 1671749030.28895
+lastSyncTime: 1671749030.28896
+asMultiple: FALSE
+asStatic: FALSE

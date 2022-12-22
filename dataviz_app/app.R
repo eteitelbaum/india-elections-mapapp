@@ -7,7 +7,7 @@ library(tmap)
 library(sf)
 
 #load helper script that does the state-level mapping
-source("helper1-2.R") #contains the function 'map_year' that takes one year variable
+source(helper2.R) #contains the function 'map_year' that takes one year variable
 
 # UI ----
 ui <- fluidPage(
