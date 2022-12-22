@@ -1,16 +1,16 @@
 # load and clean geopackage
-states_72_00 <- st_read(state_maps.gpkg, layer = "states_1972_2000") %>%
+states_72_00 <- st_read("state_maps.gpkg", layer = "states_1972_2000") %>%
   rename(state_name = ST_NM) 
 
-states_00_14 <- st_read(state_maps.gpkg, layer = "states_2000_2014") %>%
+states_00_14 <- st_read("state_maps.gpkg", layer = "states_2000_2014") %>%
   rename(state_name = ST_NM) 
 
-states_14_19 <- st_read(state_maps.gpkg, layer = "states_2014_2019") %>%
+states_14_19 <- st_read("state_maps.gpkg", layer = "states_2014_2019") %>%
   rename(state_name = ST_NM) 
 
 
 #load & clean state election data 
-coalitions_df <- read_csv(state-level-coalitions.csv) %>%
+coalitions_df <- read_csv("state-level-coalitions.csv") %>%
   rename(state_name = State_Name,
          year = Year
   ) %>%
