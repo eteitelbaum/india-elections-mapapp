@@ -59,7 +59,6 @@ server <- function(input, output) {
     map_year(input$year)
   })
   
-  
 
 }
 
