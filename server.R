@@ -2,7 +2,7 @@ library("shiny")
 library("leaflet")
 library("dplyr")
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   #filter data according to chosen year & merge with the correct map layer
   #reactive = will only update when the input (map_year) changes
@@ -28,20 +28,51 @@ shinyServer(function(input, output) {
       map_data
   })
   
-  #render the leaflet map
-  #render = will only render when the reactive element inside of it (map_df) changes
+  #base leaflet
   output$election_map = renderLeaflet({
-    
     leaflet() %>%
       addTiles() %>%
-      setView(lng = 77, lat = 20, zoom = 4.5)%>%
-      #mad_df is a FUNCTION! because created with reactive()
-      addPolygons(data = map_df(),
-                  fillColor = ~pal(map_df()$bjp_inc_other)) %>%
-      addLegend(position = "bottomright", pal = pal, values = map_df()$bjp_inc_other,
+      setView(lng = 77, lat = 20, zoom = 5)%>%
+      addLegend(position = "bottomright", 
+                pal = pal,
+                values = c("BJP", "BJP+", "INC", "INC+", "Other", "NA"),
                 title = "Coalitions",
                 opacity = 1)
-
   })
-  
+  #Incremental changes to the map performed in an observer & leafletProxy
+  observe({
+    
+    leafletProxy("election_map")%>%
+      clearShapes() %>%
+      addPolygons(data = map_df(),    #mad_df is a FUNCTION! because created with reactive()
+                  #layerId = ~map_df()$state_name,
+                  fillColor = ~pal(map_df()$bjp_inc_other), 
+                  fillOpacity = 0.7,
+                  popup = paste("State: ", map_df()$state_name, "<br>",
+                                "Coalition: ", map_df()$bjp_inc_other, "<br>"),
+                  stroke = TRUE, 
+                  weight = 1,
+                  smoothFactor = 1) #default: 1 - larger numbers improve performance & smooth polygon
+  })
 })
+
+
+#Improvement idea: keep the polygons of the previous map while the new ones render
+
+#Giving an object a layer ID, if a similar object exists with the same ID, it will be removed from the map when the new object is added
+#Would allow to NOT use clearShapes() before the new polygons render! 
+#Layer ID = vectorized argument: if adding 50 polygons, need to pass either NULL or a 50-element character vector as layerId value. 
+#-> If single-element character vector as layerId, all of the polygons will have the same ID, and all but the last polygon will be removed!
+
+#layerId = ~map_df()$state_name  
+# > will map one layerID for each polygon depending on its state_name
+
+#Problem: when changing year, if a state changes name, its polygon colour will NOT be removed as its layerID will not reappear in the new mapping
+# = leads to superposition
+
+#Solution (?): if condition 
+#  if year change leads to state change: clearShapes() necessary
+#   else: all state names stay the same and it is possible to use layerId
+
+#[https://github.com/rstudio/leaflet/issues/434]
+#[https://rstudio.github.io/leaflet/shiny.html]
