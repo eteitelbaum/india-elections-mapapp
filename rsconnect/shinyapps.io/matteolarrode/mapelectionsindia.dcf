@@ -5,10 +5,10 @@ account: matteolarrode
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8153433
-bundleId: 6782945
+bundleId: 6783081
 url: https://matteolarrode.shinyapps.io/mapelectionsindia/
-when: 1674871710.78467
-lastSyncTime: 1674871710.78468
+when: 1674876570.33762
+lastSyncTime: 1674876570.33763
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: .RData|Data/state_level_coalitions_pre_cleaning.csv|Data_Wrangling/dataset_cleaning.R|README.md

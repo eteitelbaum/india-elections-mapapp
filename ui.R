@@ -2,13 +2,16 @@ library("shiny")
 library("shinythemes")
 library("leaflet")
 library("shinyWidgets")
+library("htmltools")
 
 rng <- 1977:2021
+title <- div(h1(strong("Election Winners in India (1977-2021)")))
+windowtitle <- "Map - Election Winners in India"
 
 ui <- fluidPage(
   theme= shinytheme("lumen"),
   
-  titlePanel(h1("Election Winners in India (1977-2021)", align = "center")),
+  titlePanel(title = title, windowTitle = windowtitle),
 
   fluidRow(
     #12 columns on one row: this panel will take 1/4 of it
