@@ -1,0 +1,14 @@
+name: mapelectionsindia
+title: mapelectionsindia
+username:
+account: matteolarrode
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8153433
+bundleId: 6782915
+url: https://matteolarrode.shinyapps.io/mapelectionsindia/
+when: 1674870848.50732
+lastSyncTime: 1674870848.50733
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|Data/state_level_coalitions_pre_cleaning.csv|Data_Wrangling/dataset_cleaning.R|README.md

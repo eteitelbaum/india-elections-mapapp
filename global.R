@@ -2,6 +2,7 @@
 #Create all the static objects here
 library(readr)
 library(sf)
+library(dplyr)
 
 #load election dataset
 data <- read_csv("Data/state_coalitions.csv")
