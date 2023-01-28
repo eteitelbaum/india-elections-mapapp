@@ -8,14 +8,14 @@ rng <- 1977:2021
 ui <- fluidPage(
   theme= shinytheme("lumen"),
   
-  titlePanel(h1("Visualization of Election Winners in India", align = "center")),
+  titlePanel(h1("Election Winners in India (1977-2021)", align = "center")),
 
   fluidRow(
     #12 columns on one row: this panel will take 1/4 of it
     column(3, wellPanel(
       selectInput("election", "Choose an election: ", 
                   c(
-                    "State-level" = "state",
+                    "State legislative assembly" = "state",
                     "Lok Sabha" = "lok_sabha")
                   ),
       includeHTML("about.html")
