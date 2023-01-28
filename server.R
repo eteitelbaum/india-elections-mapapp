@@ -31,7 +31,7 @@ shinyServer(function(input, output, session) {
   #base leaflet
   output$election_map = renderLeaflet({
     leaflet() %>%
-      addTiles() %>%
+      addProviderTiles(providers$CartoDB.PositronNoLabels)%>%
       setView(lng = 77, lat = 20, zoom = 5)%>%
       addLegend(position = "bottomright", 
                 pal = pal,

@@ -3,6 +3,8 @@
 library(readr)
 library(sf)
 library(dplyr)
+library(leaflet)
+
 
 #load election dataset
 data <- read_csv("Data/state_coalitions.csv")
