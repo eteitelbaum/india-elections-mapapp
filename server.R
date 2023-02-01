@@ -55,12 +55,12 @@ shinyServer(function(input, output, session) {
                   stroke = TRUE, 
                   weight = 1,
                   smoothFactor = 1, #default: 1 - larger numbers improve performance & smooth polygon
-                  popup = paste(state, coalition, sep = "<br>"),
+                  popup = paste(state, coalition, sep = "<br>")
                   #label = labels,
-                  labelOptions = labelOptions(
-                      style = list("font-weight" = "normal", padding = "3px 8px"),
-                      textsize = "15px",
-                      direction = "auto")
+                  # labelOptions = labelOptions(
+                  #     style = list("font-weight" = "normal", padding = "3px 8px"),
+                  #     textsize = "15px",
+                  #     direction = "auto")
                   ) 
   })
 })
