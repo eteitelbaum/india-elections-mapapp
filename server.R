@@ -1,7 +1,3 @@
-library("shiny")
-library("leaflet")
-library("dplyr")
-
 shinyServer(function(input, output, session) {
   
   #filter data according to chosen year & merge with the correct map layer
@@ -18,10 +14,10 @@ shinyServer(function(input, output, session) {
         map_data <- left_join(states_72_00, map_data, by ="state_name")
       } 
       else if (input$map_year > 2000 & input$map_year < 2014) { 
-        map_data <- left_join(states_00_14, map_data, by ="state_name")
+        map_data <- left_join(states_00_14, map_data, by ="state_name") 
       } 
       else {
-        map_data <- left_join(states_14_19, map_data, by ="state_name")
+        map_data <- left_join(states_14_19, map_data, by ="state_name") 
       }
       
       #return the sf
@@ -31,8 +27,8 @@ shinyServer(function(input, output, session) {
   #base leaflet
   output$election_map = renderLeaflet({
     leaflet() %>%
-      addProviderTiles(providers$CartoDB.PositronNoLabels)%>%
-      setView(lng = 77, lat = 20, zoom = 5)%>%
+      addProviderTiles(providers$CartoDB.PositronNoLabels) %>%
+      setView(lng = 77, lat = 20, zoom = 5) %>%
       addLegend(position = "bottomright", 
                 pal = pal,
                 values = c("BJP", "BJP+", "INC", "INC+", "Other", "NA"),
@@ -42,17 +38,30 @@ shinyServer(function(input, output, session) {
   #Incremental changes to the map performed in an observer & leafletProxy
   observe({
     
-    leafletProxy("election_map")%>%
+   # labels <- sprintf(
+   #     "<strong>State: %s</strong><br/>Coalition: %g",
+   #     map_df()$state_name, map_df()$bjp_inc_other
+   #   ) %>% lapply(htmltools::HTML)
+    
+    state <- paste("State:", map_df()$state_name)
+    coalition <- paste("Coalition:", map_df()$bjp_inc_other)
+    
+    leafletProxy("election_map") %>%
       clearShapes() %>%
       addPolygons(data = map_df(),    #mad_df is a FUNCTION! because created with reactive()
                   #layerId = ~map_df()$state_name,
                   fillColor = ~pal(map_df()$bjp_inc_other), 
                   fillOpacity = 0.7,
-                  popup = paste("State: ", map_df()$state_name, "<br>",
-                                "Coalition: ", map_df()$bjp_inc_other, "<br>"),
                   stroke = TRUE, 
                   weight = 1,
-                  smoothFactor = 1) #default: 1 - larger numbers improve performance & smooth polygon
+                  smoothFactor = 1, #default: 1 - larger numbers improve performance & smooth polygon
+                  popup = paste(state, coalition, sep = "<br>"),
+                  #label = labels,
+                  labelOptions = labelOptions(
+                      style = list("font-weight" = "normal", padding = "3px 8px"),
+                      textsize = "15px",
+                      direction = "auto")
+                  ) 
   })
 })
 

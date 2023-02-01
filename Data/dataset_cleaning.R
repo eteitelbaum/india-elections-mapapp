@@ -1,8 +1,10 @@
 #Data wrangling
-library(tidyverse)
+library(dplyr)
+library(stringr)
+library(arrow)
 
 #state elections
-coalitions_df <- read_csv("state_level_coalitions_pre_cleaning.csv") %>%
+coalitions_df <- read_csv("Data/state_coalitions_raw.csv") %>%
   rename(state_name = State_Name,
          year = Year) %>%
   mutate(
@@ -14,9 +16,10 @@ coalitions_df <- read_csv("state_level_coalitions_pre_cleaning.csv") %>%
       first_four == "INC" ~ "INC",
       first_four == "INC(" ~ "INC",
       first_four == "INC+" ~ "INC+", 
-      TRUE ~ "Other"))
+      TRUE ~ "Other")) %>% 
+      select(state_name, year, bjp_inc_other) # could we keep winning and losing coalition details and include in tooltip?
 
-final_coalitions_df <- coalitions_df %>%
-  select(-winning_coalition,-losing_coalition,-first_four)
+# write.csv(final_coalitions_df, "state_coalitions.csv", row.names=FALSE)
+write_feather(coalitions_df, "state_coalitions.feather")
+  
 
-write.csv(final_coalitions_df, "state_coalitions.csv", row.names=FALSE)

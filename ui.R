@@ -1,9 +1,3 @@
-library("shiny")
-library("shinythemes")
-library("leaflet")
-library("shinyWidgets")
-library("htmltools")
-
 rng <- 1977:2021
 title <- div(h1(strong("Election Winners in India (1977-2021)")))
 windowtitle <- "Map - Election Winners in India"
@@ -26,7 +20,7 @@ ui <- fluidPage(
     
     
     column(8,
-           leafletOutput("election_map", height = 600),
+           leafletOutput("election_map", height = 900),
            sliderTextInput("map_year", "Year",
                            choices = rng,
                            selected = tail(rng, n = 1),
