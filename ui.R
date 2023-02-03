@@ -1,4 +1,4 @@
-rng <- 1977:2021
+rng <- 1984:2021
 title <- div(h1(strong("Election Winners in India (1977-2021)")))
 windowtitle <- "Map - Election Winners in India"
 

@@ -45,9 +45,9 @@ shinyServer(function(input, output, session) {
     ) %>% lapply(htmltools::HTML)
     
     leafletProxy("election_map") %>%
-      clearShapes() %>%
+      #clearShapes() %>%
       addPolygons(data = map_df(),    #map_df is a FUNCTION! because created with reactive()
-                  #layerId = ~map_df()$state_name,
+                  layerId = ~map_df()$state_name,
                   fillColor = ~pal(map_df()$bjp_inc_other), # WHY A TILDE? ~pal
                   fillOpacity = 0.7,
                   stroke = TRUE, 
