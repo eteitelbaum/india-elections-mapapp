@@ -3,7 +3,7 @@ shinyServer(function(input, output, session) {
   #filter data according to chosen year & merge with the correct map layer
   #reactive = will only update when the input (map_year) changes
   map_df <- reactive({
-    
+      
       map_data <- data %>%
         filter(year <= input$map_year) %>%
         group_by(state_name) %>%
@@ -21,7 +21,7 @@ shinyServer(function(input, output, session) {
       }
       
       #return the sf
-      map_data
+      #map_data # DO WE STILL NEED TO RETURN THE SF OBJECT?
   })
   
   #base leaflet
@@ -35,32 +35,29 @@ shinyServer(function(input, output, session) {
                 title = "Coalitions",
                 opacity = 1)
   })
+  
   #Incremental changes to the map performed in an observer & leafletProxy
   observe({
     
-   # labels <- sprintf(
-   #     "<strong>State: %s</strong><br/>Coalition: %g",
-   #     map_df()$state_name, map_df()$bjp_inc_other
-   #   ) %>% lapply(htmltools::HTML)
-    
-    state <- paste("State:", map_df()$state_name)
-    coalition <- paste("Coalition:", map_df()$bjp_inc_other)
+    labels <- sprintf(
+      "State: %s<br>Coalition: %s",
+      map_df()$state_name, map_df()$bjp_inc_other
+    ) %>% lapply(htmltools::HTML)
     
     leafletProxy("election_map") %>%
       clearShapes() %>%
       addPolygons(data = map_df(),    #mad_df is a FUNCTION! because created with reactive()
                   #layerId = ~map_df()$state_name,
-                  fillColor = ~pal(map_df()$bjp_inc_other), 
+                  fillColor = ~pal(map_df()$bjp_inc_other), # WHY A TILDE? ~pal
                   fillOpacity = 0.7,
                   stroke = TRUE, 
                   weight = 1,
                   smoothFactor = 1, #default: 1 - larger numbers improve performance & smooth polygon
-                  popup = paste(state, coalition, sep = "<br>")
-                  #label = labels,
-                  # labelOptions = labelOptions(
-                  #     style = list("font-weight" = "normal", padding = "3px 8px"),
-                  #     textsize = "15px",
-                  #     direction = "auto")
+                  label = labels,
+                  labelOptions = labelOptions(
+                       style = list("font-weight" = "normal", padding = "3px 8px"),
+                       textsize = "15px",
+                       direction = "auto")
                   ) 
   })
 })
