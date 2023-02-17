@@ -42,11 +42,9 @@ map_data <- data %>%
 
 if (input$map_year < 2001) {
   map_data <- left_join(states_72_00, map_data, by ="state_name")
-} 
-else if (input$map_year > 2000 & input$map_year < 2014) { 
+} else if (input$map_year > 2000 & input$map_year < 2014) { 
   map_data <- left_join(states_00_14, map_data, by ="state_name") 
-} 
-else {
+} else {
   map_data <- left_join(states_14_19, map_data, by ="state_name") 
 }
 

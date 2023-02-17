@@ -8,6 +8,7 @@ library(arrow)
 library(dplyr)
 library(sf)
 library(leaflet)
+library(shinybusy)
 
 
 #load election dataset
@@ -28,3 +29,7 @@ states_14_19 <- st_read("data/state_maps.gpkg", layer = "states_2014_2019") %>%
 # colours for the leaflet map
 pal <- colorFactor(palette = c("#ff8100", "#ffb348", "#5da2cf", "#90cce7", "#ffff66"), 
                     levels = c("BJP", "BJP+", "INC", "INC+", "Other"))
+
+# bind cache?
+
+#shinyOptions(cache = “app”), bindCache(…, cache = “app”) 

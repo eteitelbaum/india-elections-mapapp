@@ -3,7 +3,7 @@ shinyServer(function(input, output, session) {
   #filter data according to chosen year & merge with the correct map layer
   #reactive = will only update when the input (map_year) changes
   map_df <- reactive({
-      
+    
       map_data <- data %>%
         filter(year <= input$map_year) %>%
         group_by(state_name) %>%
@@ -12,20 +12,20 @@ shinyServer(function(input, output, session) {
     
       if (input$map_year < 2001) {
         map_data <- left_join(states_72_00, map_data, by ="state_name")
-      } 
-      else if (input$map_year > 2000 & input$map_year < 2014) { 
+      } else if (input$map_year > 2000 & input$map_year < 2014) { 
         map_data <- left_join(states_00_14, map_data, by ="state_name") 
-      } 
-      else {
+      } else {
         map_data <- left_join(states_14_19, map_data, by ="state_name") 
       }
       
       #return the sf
       #map_data # DO WE STILL NEED TO RETURN THE SF OBJECT?
+      
   })
   
   #base leaflet
   output$election_map = renderLeaflet({
+    
     leaflet() %>%
       addProviderTiles(providers$CartoDB.PositronNoLabels) %>%
       setView(lng = 77, lat = 20, zoom = 5) %>%
@@ -34,10 +34,14 @@ shinyServer(function(input, output, session) {
                 values = c("BJP", "BJP+", "INC", "INC+", "Other", "NA"),
                 title = "Coalitions",
                 opacity = 1)
+    
   })
   
   #Incremental changes to the map performed in an observer & leafletProxy
   observe({
+    
+    # show spinner
+    show_modal_spinner()
     
     labels <- sprintf(
       "State: %s<br>Coalition: %s",
@@ -58,8 +62,13 @@ shinyServer(function(input, output, session) {
                        style = list("font-weight" = "normal", padding = "3px 8px"),
                        textsize = "15px",
                        direction = "auto")
-                  ) 
+                  ) #%>% 
+                  #bindCache("election_map")
+    
+    # hide spinner
+    remove_modal_spinner()
   })
+  
 })
 
 

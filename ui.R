@@ -3,6 +3,7 @@ title <- div(h1(strong("Election Winners in India (1977-2021)")))
 windowtitle <- "Map - Election Winners in India"
 
 ui <- fluidPage(
+  
   theme= shinytheme("lumen"),
   
   titlePanel(title = title, windowTitle = windowtitle),
@@ -27,5 +28,5 @@ ui <- fluidPage(
                            grid = T,
                            width = "100%")
            )
-  )
+  ) 
 )
