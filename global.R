@@ -10,7 +10,6 @@ library(sf)
 library(leaflet)
 library(shinybusy)
 
-
 #load election dataset
 data <- read_feather("state_coalitions.feather")
 # write.csv(final_coalitions_df, "state_coalitions.csv", row.names=FALSE)

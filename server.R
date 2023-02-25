@@ -1,3 +1,4 @@
+
 shinyServer(function(input, output, session) {
   
   #filter data according to chosen year & merge with the correct map layer
@@ -70,7 +71,6 @@ shinyServer(function(input, output, session) {
   })
   
 })
-
 
 #Improvement idea: keep the polygons of the previous map while the new ones render
 
