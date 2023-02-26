@@ -19,9 +19,9 @@ shinyServer(function(input, output, session) {
         map_data <- left_join(states_14_19, map_data, by ="state_name") 
       }
       
-      #return the sf
-      #map_data # DO WE STILL NEED TO RETURN THE SF OBJECT?
-      
+      # simplify
+      map_data <- ms_simplify(map_data, keep = 0.05, keep_shapes = FALSE)
+
   })
   
   #base leaflet
@@ -36,7 +36,8 @@ shinyServer(function(input, output, session) {
                 title = "Coalitions",
                 opacity = 1)
     
-  })
+  }) #%>% 
+    #bindCache(input$map_year, cache = "app")
   
   #Incremental changes to the map performed in an observer & leafletProxy
   observe({
@@ -63,14 +64,13 @@ shinyServer(function(input, output, session) {
                        style = list("font-weight" = "normal", padding = "3px 8px"),
                        textsize = "15px",
                        direction = "auto")
-                  ) #%>% 
-                  #bindCache("election_map")
+                  ) 
     
     # hide spinner
     remove_modal_spinner()
   })
   
-})
+}) 
 
 #Improvement idea: keep the polygons of the previous map while the new ones render
 

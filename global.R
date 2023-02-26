@@ -7,6 +7,7 @@ library(htmltools)
 library(arrow)
 library(dplyr)
 library(sf)
+library(rmapshaper)
 library(leaflet)
 library(shinybusy)
 

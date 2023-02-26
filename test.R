@@ -8,6 +8,7 @@ library(arrow)
 library(dplyr)
 library(sf)
 library(leaflet)
+library(rmapshaper)
 
 
 #load election dataset
@@ -29,25 +30,23 @@ states_14_19 <- st_read("data/state_maps.gpkg", layer = "states_2014_2019") %>%
 pal <- colorFactor(palette = c("#ff8100", "#ffb348", "#5da2cf", "#90cce7", "#ffff66"), 
                    levels = c("BJP", "BJP+", "INC", "INC+", "Other"))
 
-
-input <- input$map_year 
-
-mapdf <- function()
+map_year <- 1999
 
 map_data <- data %>%
-  filter(year <= input) %>%
+  filter(year <= map_year) %>%
   group_by(state_name) %>%
   arrange(year) %>%
   slice_max(year, n = 1)
 
-if (input$map_year < 2001) {
+if (map_year < 2001) {
   map_data <- left_join(states_72_00, map_data, by ="state_name")
-} else if (input$map_year > 2000 & input$map_year < 2014) { 
+} else if (map_year > 2000 & map_year < 2014) { 
   map_data <- left_join(states_00_14, map_data, by ="state_name") 
 } else {
   map_data <- left_join(states_14_19, map_data, by ="state_name") 
 }
 
+map_data <- ms_simplify(map_data, keep = 0.05, keep_shapes = TRUE)
 
 labels <- sprintf(
      "<strong>State: %s</strong><br/>Coalition: %g",
