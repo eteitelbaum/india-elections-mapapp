@@ -3,6 +3,8 @@
 ## WebApp
 This project aims to provide detailed and accurate data visualization of ruling coalitions in India. The web applications that will result from it will provide people interested in the evolution of the Indian political landscape with a centralized tool to observe it. 
 
+Available at [https://matteolarrode.shinyapps.io/mapelectionsindia/](https://matteolarrode.shinyapps.io/mapelectionsindia/). 
+
 ## General Elections (Lok Sabha) Winners 
 The first tool of this web application will be an interactive map displaying the winning party of each General Election in every constituency since 1977[^1].
 
